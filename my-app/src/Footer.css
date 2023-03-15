@@ -1,0 +1,17 @@
+
+footer {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  background: #f1f1f1;
+  border-top: 2px solid #d9d9d9;
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+}

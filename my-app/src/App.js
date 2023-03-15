@@ -10,9 +10,7 @@ function App() {
       <Header>
       </Header>
       <Recipes>
-
       </Recipes>
-
       <Footer>
       </Footer>
     </div>

@@ -21,4 +21,5 @@ operable program or batch file.
    1. [You can find more here](https://flask.palletsprojects.com/en/2.2.x/installation/) in the virtual environment section
 2. Activate your virtual environment
 3. Run `pip install flask`
-4. Then run your backend by running `flask --app base.py run` while in the `/backend` folder.
+4. Run `pip install flask-jwt-extended`
+5. Then run your backend by running `flask --app base.py run` while in the `/backend` folder.

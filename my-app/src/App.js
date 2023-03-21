@@ -11,10 +11,10 @@ function App() {
       </Header>
       <Recipes>
       </Recipes>
-      <Footer>
-      </Footer>
     </div>
   );
 }
+      // <Footer>
+      // </Footer>
 
 export default App;

@@ -23,3 +23,10 @@ operable program or batch file.
 3. Run `pip install flask`
 4. Run `pip install flask-jwt-extended`
 5. Then run your backend by running `flask --app base.py run` while in the `/backend` folder.
+
+## To test login and authorization
+
+1. Make sure your token is updated
+2. /profile will tell you if you are authorized or not
+3. username: test password: test
+4. This will be overhauled and it is just a temporary solution while we get the database and further logic scaled up.

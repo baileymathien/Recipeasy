@@ -1,4 +1,4 @@
-import './Recipes.css'
+import './styles/Recipes.css'
 import soup from './soup.jpg'
 // Function to gett all database recipes
 function Recipes() {

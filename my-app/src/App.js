@@ -1,7 +1,7 @@
 import './App.css';
-import Footer from './Footer.js'
-import Header from './Header.js'
-import Recipes from './Recipes.js'
+import Footer from './components/Footer.js'
+import Header from './components/Header.js'
+import Recipes from './components/Recipes.js'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/Login'
 import Profile from './components/Profile'
@@ -13,35 +13,24 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header token={removeToken}/>
-        {!token && token!=="" &&token!== undefined?  
-        <Login setToken={setToken} />
-        :(
-          <>
-            <Routes>
-              <Route exact path="/profile" element={<Profile token={token} setToken={setToken}/>}></Route>
-            </Routes>
-          </>
-        )}
-      </div>
-      <div className="App">
-           <Recipes>
-           </Recipes>
+        { false ?
+          <Login setToken={setToken} />
+          : (
+            <>
+              <Header token={removeToken} />
+              <Routes>
+                <Route exact path="/profile" element={<Profile token={token} setToken={setToken} />}></Route>
+                <Route exact path="/home" element={<Recipes />}></Route>
+              </Routes>
+              {/* <Recipes></Recipes> */}
+            </>
+          )}
       </div>
     </BrowserRouter>
 
   );
 }
-//   return (
-//     <div className="App">
-//       <Header>
-//       </Header>
-//       <Recipes>
-//       </Recipes>
-//     </div>
-//   );
-// }
-      // <Footer>
-      // </Footer>
+// MOVED THE SIGN IN CHECK HERE FOR TESTING
+// !token && token !== "" && token !== undefined
 
 export default App;

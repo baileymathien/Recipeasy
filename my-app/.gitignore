@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /backend/env
+/backend/venv
 /backend/__pycache__
 /backend/env/Lib/site-packages/colorama/tests/ansi_test.py

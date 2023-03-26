@@ -2,7 +2,7 @@ import './App.css';
 import Footer from './components/Footer.js'
 import Header from './components/Header.js'
 import Recipes from './components/Recipes.js'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
 import Login from './components/Login'
 import Profile from './components/Profile'
 import useToken from './components/useToken'

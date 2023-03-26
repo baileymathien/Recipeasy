@@ -1,5 +1,7 @@
 import './styles/Header.css'
 import axios from "axios";
+import {  Link } from 'react-router-dom'
+
 
 function Header(props) {
 
@@ -24,11 +26,11 @@ function Header(props) {
     <div className="header">
     <a href="#default" className="logo">Recipeasy</a>
     <div className="header-right">
-        <a className="active" href="home">Home</a>
-        <a href="contact">Favorites</a>
-        <a href="about">Shopping Cart</a>
-        <a href="profile">Profile</a>
-        <a onClick={logMeOut}>Logout</a>
+        <Link className="active" to="home">Home</Link>
+        <Link to="contact">Favorites</Link>
+        <Link to="about">Shopping Cart</Link>
+        <Link to="profile">Profile</Link>
+        <Link onClick={logMeOut}>Logout</Link>
     </div>
     </div>
 </div>

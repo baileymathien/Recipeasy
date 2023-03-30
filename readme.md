@@ -14,7 +14,6 @@ operable program or batch file.
 
 ... run `npm install` and it should fix it
 
-
 ## To run the backend
 
 1. In `recipeasy/my-app/backend` create a python virtual environment
@@ -23,6 +22,10 @@ operable program or batch file.
 3. Run `pip install flask`
 4. Run `pip install flask-jwt-extended`
 5. Then run your backend by running `flask --app base.py run` while in the `/backend` folder.
+
+## To initialize local database
+
+1. Run the command `flask --app base.py initdb` after you've already setup your virtual environment
 
 ## To test login and authorization
 

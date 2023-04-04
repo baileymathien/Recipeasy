@@ -1,5 +1,9 @@
 
-
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+  }
+  
 .pagination a {
     border-radius: 5px;
   }
@@ -28,6 +32,28 @@ border-radius: 5px;
     height: 200px;
     width: 200px;
 }
+.addNewCard{
+    display: flex;
+    color: white;
+    cursor: pointer;
+    align-items: center;
+    background-color: rgb(6, 106, 43);
+    border-radius: 4px;
+    border: 2px solid #d9d9d9;
+    height: 200px;
+    width: 200px;
+} 
+.addNewCard:hover{
+    display: flex;
+    color: white;
+    cursor: pointer;
+    align-items: center;
+    background-color: rgb(17, 174, 75);
+    border-radius: 4px;
+    border: 2px solid #d9d9d9;
+    height: 200px;
+    width: 200px;
+} 
 
 .recipeImg{
     height: 200px;

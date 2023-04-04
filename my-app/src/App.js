@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
 import Login from './components/Login'
 import Profile from './components/Profile'
 import useToken from './components/useToken'
+import Newrecipe from './components/NewRecipe'
 
 function App() {
   const { token, removeToken, setToken } = useToken();
@@ -21,6 +22,7 @@ function App() {
               <Routes>
                 <Route exact path="/profile" element={<Profile token={token} setToken={setToken} />}></Route>
                 <Route exact path="/home" element={<Recipes />}></Route>
+                <Route exact path="/newrecipe" element={<Newrecipe />}></Route>
               </Routes>
               {/* <Recipes></Recipes> */}
             </>

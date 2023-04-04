@@ -1,27 +1,44 @@
 import './styles/Recipes.css'
-import {  Link } from 'react-router-dom'
-// Function to gett all database recipes
+import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const headers = ["test"];
+
 
 function Recipes() {
+
+    const [recipes, setRecipes] = useState([]);
+
+    useEffect(() => {
+      fetch('http://localhost:5000/api/recipes')
+        .then(response => response.json())
+        .then(data => {
+          setRecipes(data);
+          console.log(data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }, []);
+
     return (
         <div className='recipeScreen'>
-             <Link to="/newrecipe">
+            <Link to="/newrecipe">
                 <div className='addNewCard'>
-               
-                <div className="nameDateContainer">
-                    <div className="recipeName">Add New Recipe</div>
+
+                    <div className="newNameDateContainer">
+                        <div className="newRecipeName">Add New Recipe</div>
+                    </div>
                 </div>
-            </div>
             </Link>
-            {headers.map(type => (
+            {recipes.map(card => (
                 <div className='recipeCard'>
-                   <div className="nameDateContainer">
-                        <div className="recipeName">{type} {/* will be a variable */}</div>
-                        <div className="recipeMeal">{type} {/* will be a variable */}</div>
-                </div>
-                <a className="favoriteButton" href="#test">Favorite</a>
+                    <div className="nameDateContainer">
+                        <div className="recipeName"> {card.recipeName} {/* will be a variable */}</div>
+                        <div className="recipeMeal"> {card.mealType} {/* will be a variable */}</div>
+                    </div>
+                    <a className="favoriteButton" href="#test">Favorite</a>
+                    
                 </div>
             ))}
         </div>

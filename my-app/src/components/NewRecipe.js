@@ -1,6 +1,7 @@
 import './styles/NewRecipe.css'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
+import { useNavigate } from 'react-router-dom';
 
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -14,6 +15,27 @@ const meals = [
     { value: 'dinner', label: 'Dinner' }
 ]
 
+
+
+
+function addRecipe() {
+    const recipe = {
+        recipe_name: document.getElementById('title').value,
+        meal_type: document.getElementById('mealType').textContent
+    };
+
+    fetch('http://localhost:5000/api/newrecipes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(recipe)
+    })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+}
+
 const animatedComponents = makeAnimated();
 function NewRecipe() {
     return (
@@ -25,12 +47,12 @@ function NewRecipe() {
                 <label className='smallTitle'>
                     Recipe Title
                 </label>
-                <input className='textbox' placeholder='Recipe Title' type="text" name="name" />
+                <input className='textbox' placeholder='Recipe Title' type="text" name="name" id='title' />
                 <br />
                 <label className='smallTitle'>
                     Instructions
                 </label>
-                <textarea className='textarea'  placeholder='Enter recipe instructions here...' type="textarea" name="name" />
+                <textarea className='textarea' placeholder='Enter recipe instructions here...' type="textarea" name="name" />
                 <br />
                 <label className='smallTitle'>
                     Ingredients
@@ -47,7 +69,8 @@ function NewRecipe() {
                     isMulti
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-                    options={options} name="ingredients"
+                    options={options}
+                    name="ingredients"
                 />
                 <label className='smallTitle'>
                     Meal Type
@@ -62,9 +85,11 @@ function NewRecipe() {
                     }}
                     className='selectClass'
                     components={animatedComponents}
-                    options={meals} name="ingredients"
+                    options={meals}
+                    name="mealType"
+                    id='mealType'
                 />
-                <a className='submit' type="submit">Submit</a>
+                <a className='submit' type="submit" onClick={addRecipe} >Submit</a>
 
             </form>
         </div>

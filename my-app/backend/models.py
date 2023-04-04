@@ -16,10 +16,18 @@ class User(db.Model):
 class Recipe(db.Model):
     recipeId = db.Column(db.Integer, primary_key=True)
     recipeName = db.Column(db.String(30), nullable=False)
-    instructions =  db.relationship('Ingredient', backref='recipe', lazy=True)
+    mealType = db.Column(db.String(30), nullable=False)
+   # instructions =  db.relationship('Ingredient', backref='recipe', lazy=True)
 
     def __repr__(self):
         return '<Recipe{}>'.format(self.recipeName)
+    # This was added for returning the values
+    def serialize(self):
+        return {
+            'recipeId': self.recipeId,
+            'recipeName': self.recipeName,
+            'mealType': self.mealType,
+        }
     
 class Ingredient(db.Model):
     ingredientId = db.Column(db.Integer, primary_key=True)

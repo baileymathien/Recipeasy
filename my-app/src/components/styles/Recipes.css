@@ -25,6 +25,7 @@ border-radius: 5px;
 }
 .recipeCard{
     display: flex;
+    flex-direction: row;
     align-items: center;
     background-color: #f1f1f1;
     border-radius: 4px;
@@ -67,8 +68,38 @@ border-radius: 5px;
     flex-direction: column;
     margin-left: 10px;
     justify-content: center;
+    align-items: center;
+    height: 100%;
+    align-self: baseline;
+}
+
+.newNameDateContainer{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    justify-content: center;
 }
 .recipeName{
+    max-width: 110px;
+    overflow-wrap: break-word;
+    overflow:scroll;
+    inline-size: 150px;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+} /* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+.newRecipeName{
+    max-width: 110px;
+
+    inline-size: 150px;
     text-align: left;
     font-size: 20px;
     font-weight: bold;
@@ -77,16 +108,18 @@ border-radius: 5px;
     margin-top: 5px;
     text-align: left;
     font-size: 15px;
+    align-self: baseline ;
 }
 
 .favoriteButton{
     margin-left: auto;
-    height: 20px;
-    padding: 12px;
+    height: 18px;
+    padding: 10px;
     text-decoration: none;
-    font-size: 18px; 
+    font-size: 15px; 
     border-radius: 4px;
     background-color: rgb(6, 106, 43);
     color: white;
     margin-right: 10px;
 }
+

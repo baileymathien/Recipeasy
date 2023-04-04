@@ -28,7 +28,7 @@ function Profile(props) {
 
   return (
     <div className="Profile">
-
+      <h1>Profile</h1>
         <p>To get your profile details: </p><button onClick={getData}>Click me</button>
         {profileData && <div>
               <p>Profile name: {profileData.profile_name}</p>

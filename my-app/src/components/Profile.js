@@ -1,7 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from "axios";
 
 function Profile(props) {
+
+  useEffect(() => {
+    props.setLocation(window.location.href.split("/")[window.location.href.split("/").length-1]);
+  }, []);
 
   const [profileData, setProfileData] = useState(null)
   function getData() {

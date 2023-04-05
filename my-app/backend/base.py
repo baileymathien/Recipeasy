@@ -103,9 +103,10 @@ def add_recipe():
         # Retrieve the data from the request
         recipe_name = request.json['recipe_name']
         meal_type = request.json['meal_type']
+        instructions = request.json['instructions']
 
         # Create a new Recipe object
-        new_recipe = Recipe(recipeName=recipe_name, mealType=meal_type)
+        new_recipe = Recipe(recipeName=recipe_name, mealType=meal_type, instructions=instructions)
 
         # Add the new recipe to the database
         db.session.add(new_recipe)

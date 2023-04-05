@@ -16,7 +16,7 @@ function Cart(props) {
 
     return (
         <div className='recipeScreen'>
-            Shopping Cart
+            Shopping Cart : 
         </div>
     );
 }

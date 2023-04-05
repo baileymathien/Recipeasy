@@ -33,6 +33,11 @@ border-radius: 5px;
     height: 200px;
     width: 200px;
 }
+.recipeCard:hover{
+    cursor: pointer;
+    background-color: #d9d9d9;
+
+} 
 .addNewCard{
     display: flex;
     color: white;
@@ -55,7 +60,6 @@ border-radius: 5px;
     height: 200px;
     width: 200px;
 } 
-
 .recipeImg{
     height: 200px;
     width: 200px;
@@ -121,5 +125,7 @@ border-radius: 5px;
     background-color: rgb(6, 106, 43);
     color: white;
     margin-right: 10px;
+}.favoriteButton:hover {
+    background-color: rgb(17, 174, 75);
 }
 

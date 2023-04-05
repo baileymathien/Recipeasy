@@ -17,7 +17,7 @@ class Recipe(db.Model):
     recipeId = db.Column(db.Integer, primary_key=True)
     recipeName = db.Column(db.String(30), nullable=False)
     mealType = db.Column(db.String(30), nullable=False)
-   # instructions =  db.relationship('Ingredient', backref='recipe', lazy=True)
+    instructions =  db.Column(db.String(300000), nullable=False)
 
     def __repr__(self):
         return '<Recipe{}>'.format(self.recipeName)
@@ -27,6 +27,7 @@ class Recipe(db.Model):
             'recipeId': self.recipeId,
             'recipeName': self.recipeName,
             'mealType': self.mealType,
+            'instructions': self.instructions,
         }
     
 class Ingredient(db.Model):

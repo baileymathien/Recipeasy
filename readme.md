@@ -18,6 +18,9 @@ operable program or batch file.
 
 1. In `recipeasy/my-app/l` create a python virtual environment
    1. [You can find more here](https://flask.palletsprojects.com/en/2.2.x/installation/) in the virtual environment section
+python3 -m venv venv
+. venv/bin/activate
+
 2. Activate your virtual environment
 3. Run `pip install flask`
 4. Run `pip install flask-jwt-extended`

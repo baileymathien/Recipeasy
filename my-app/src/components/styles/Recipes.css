@@ -1,20 +1,22 @@
-
 a {
-    color: inherit; /* blue colors for links too */
-    text-decoration: inherit; /* no underline */
-  }
-  
+    color: inherit;
+    /* blue colors for links too */
+    text-decoration: inherit;
+    /* no underline */
+}
+
 .pagination a {
     border-radius: 5px;
-  }
-  
-.pagination a.active {
-border-radius: 5px;
 }
-.recipeScreen{
-    padding-top: 10px;   
-    padding-left: 80px; 
-    padding-right: 80px; 
+
+.pagination a.active {
+    border-radius: 5px;
+}
+
+.recipeScreen {
+    padding-top: 10px;
+    padding-left: 80px;
+    padding-right: 80px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -23,7 +25,8 @@ border-radius: 5px;
     justify-content: left;
     height: 100%;
 }
-.recipeCard{
+
+.recipeCard {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -33,12 +36,14 @@ border-radius: 5px;
     height: 200px;
     width: 200px;
 }
-.recipeCard:hover{
+
+.recipeCard:hover {
     cursor: pointer;
     background-color: #d9d9d9;
 
-} 
-.addNewCard{
+}
+
+.addNewCard {
     display: flex;
     color: white;
     cursor: pointer;
@@ -48,8 +53,9 @@ border-radius: 5px;
     border: 2px solid #d9d9d9;
     height: 200px;
     width: 200px;
-} 
-.addNewCard:hover{
+}
+
+.addNewCard:hover {
     display: flex;
     color: white;
     cursor: pointer;
@@ -59,15 +65,16 @@ border-radius: 5px;
     border: 2px solid #d9d9d9;
     height: 200px;
     width: 200px;
-} 
-.recipeImg{
+}
+
+.recipeImg {
     height: 200px;
     width: 200px;
     border-radius: 4px;
     text-align: left;
 }
 
-.nameDateContainer{
+.nameDateContainer {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
@@ -77,30 +84,49 @@ border-radius: 5px;
     align-self: baseline;
 }
 
-.newNameDateContainer{
+.newNameDateContainer {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
     justify-content: center;
 }
-.recipeName{
+
+.recipeName {
     max-width: 110px;
     overflow-wrap: break-word;
-    overflow:scroll;
+    overflow: scroll;
     inline-size: 150px;
     text-align: left;
     font-size: 20px;
     font-weight: bold;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-} /* Hide scrollbar for Chrome, Safari and Opera */
-::-webkit-scrollbar {
-  display: none;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+    display: none;
+}
 
+.selectCont{
+    width: 100%;
+}
 
-.newRecipeName{
+.mealFilter {
+    text-align: left;
+    min-width: 200px;
+    width: fit-content;
+    border-color: rgb(6, 106, 43);
+}
+
+:focus {
+    outline: 2px solid rgb(6, 106, 43);
+    outline-offset: -2px;
+}
+
+.newRecipeName {
     max-width: 110px;
 
     inline-size: 150px;
@@ -108,24 +134,26 @@ border-radius: 5px;
     font-size: 20px;
     font-weight: bold;
 }
-.recipeMeal{
+
+.recipeMeal {
     margin-top: 5px;
     text-align: left;
     font-size: 15px;
-    align-self: baseline ;
+    align-self: baseline;
 }
 
-.favoriteButton{
+.favoriteButton {
     margin-left: auto;
     height: 18px;
     padding: 10px;
     text-decoration: none;
-    font-size: 15px; 
+    font-size: 15px;
     border-radius: 4px;
     background-color: rgb(6, 106, 43);
     color: white;
     margin-right: 10px;
-}.favoriteButton:hover {
-    background-color: rgb(17, 174, 75);
 }
 
+.favoriteButton:hover {
+    background-color: rgb(17, 174, 75);
+}

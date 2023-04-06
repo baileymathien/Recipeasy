@@ -4,31 +4,44 @@ import makeAnimated from 'react-select/animated';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-]
+// { value: 'chocolate', label: 'Chocolate' },
+// { value: 'strawberry', label: 'Strawberry' },
+// { value: 'vanilla', label: 'Vanilla' }
+let options = []
 
 const meals = [
     { value: 'Breakfast', label: 'Breakfast' },
     { value: 'Lunch', label: 'Lunch' },
-    { value: 'Dinner', label: 'Dinner' }
+    { value: 'Dinner', label: 'Dinner' },
+    { value: 'Dessert', label: 'Dessert' }
 ]
 
 
 
 const animatedComponents = makeAnimated();
 function NewRecipe(props) {
-    useEffect(() => {
-        props.setLocation(window.location.href.split("/")[window.location.href.split("/").length-1]);
-      }, []);
-
-
     const [title, setTitle] = useState();
     const [mealType, setMealType] = useState();
     const [instructions, setInstructions] = useState();
+    const [options, setOptions] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+
     const navigate = useNavigate()
+
+    useEffect(() => {
+        props.setLocation(window.location.href.split("/")[window.location.href.split("/").length - 1]);
+        fetch('http://localhost:5000/api/get_ingredients')
+            .then(response => response.json())
+            .then(data => {
+                for (const test in data) {
+                    const newOptions = data.map(item => ({ value: item.ingredientId, label: item.ingredientName }));
+                    setOptions(newOptions);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [props]);
 
 
     function addRecipe() {
@@ -36,10 +49,10 @@ function NewRecipe(props) {
         const recipe = {
             recipe_name: title.value,
             meal_type: mealType.value,
-            instructions: instructions.value
+            instructions: instructions.value,
+            ingredient_ids: selectedIngredients.map(item => item.value),
         };
 
-console.log(recipe)
         fetch('http://localhost:5000/api/newrecipes', {
             method: 'POST',
             headers: {
@@ -71,7 +84,7 @@ console.log(recipe)
                 <label className='smallTitle'>
                     Instructions
                 </label>
-                <textarea className='textarea' placeholder='Enter recipe instructions here...' type="textarea" name="name" onChange={(e) => setInstructions({ value: e.target.value })}/>
+                <textarea className='textarea' placeholder='Enter recipe instructions here...' type="textarea" name="name" onChange={(e) => setInstructions({ value: e.target.value })} />
                 <br />
                 <label className='smallTitle'>
                     Ingredients
@@ -90,6 +103,8 @@ console.log(recipe)
                     components={animatedComponents}
                     options={options}
                     name="ingredients"
+                    onChange={setSelectedIngredients}
+                    value={selectedIngredients}
                 />
                 <label className='smallTitle'>
                     Meal Type

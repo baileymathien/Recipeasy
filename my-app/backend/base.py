@@ -30,6 +30,15 @@ def createTables():
     db.drop_all()
     db.create_all()
 
+#@app.before_first_request
+@app.cli.command('filldb')
+def filldb():
+    all_foods = ["Baking Soda","Salt", "Pepper", "Garlic", "Onion", "Olive Oil", "Butter", "Eggs", "Milk", "Flour", "Sugar", "Honey", "Vinegar", "Lemon Juice", "Soy Sauce", "Worcestershire Sauce", "Mayonnaise", "Mustard", "Ketchup", "Hot Sauce", "Tomatoes", "Potatoes", "Carrots", "Celery", "Lettuce", "Cucumbers", "Broccoli", "Cauliflower", "Peppers", "Mushrooms", "Green Beans", "Spinach", "Kale", "Cabbage", "Zucchini", "Pumpkin", "Squash", "Corn", "Peas", "Lentils", "Beans", "Chickpeas", "Rice", "Pasta", "Bread", "Cheese", "Mozzarella", "Cheddar", "Parmesan", "Ricotta", "Feta", "Cream Cheese", "Yogurt", "Sour Cream", "Heavy Cream", "Cream", "Beef", "Chicken", "Turkey", "Pork", "Bacon", "Sausage", "Ham", "Salmon", "Tuna", "Shrimp", "Crab", "Lobster", "Scallops", "Clams", "Oysters", "Breadcrumbs", "Nuts", "Almonds", "Walnuts", "Cashews", "Peanuts", "Pecans", "Hazelnuts", "Macadamia Nuts", "Coconut", "Chocolate", "Cocoa Powder", "Vanilla Extract", "Cinnamon", "Nutmeg", "Ginger", "Cloves", "Bay Leaves"]
+    for ingredient in all_foods:
+        new_ingredient = Ingredient(ingredient)
+        db.session.add(new_ingredient)
+        db.session.commit()
+
 # Refresh token login
 # @app.after_request
 # def refresh_expiring_jwts(response):
@@ -62,7 +71,8 @@ def createTables():
 
 @app.route('/')
 def base():
-    return redirect(url_for('login_page'))
+    return jsonify({"message": "Hello, world!"})
+    # return redirect(url_for('login_page'))
 
 @app.route('/login' ,methods=['POST', 'GET'])
 def login_page():
@@ -96,6 +106,22 @@ def get_recipes():
     recipes = Recipe.query.all()
     return jsonify([recipe.serialize() for recipe in recipes])
 
+@app.route('/api/get_ingredients')
+def get_ingredients():
+    recipes = Ingredient.query.all()
+    return jsonify([recipe.serialize() for recipe in recipes])
+
+@app.route('/api/getCurrRecipe/<int:id>')
+def getCurrRecipe(id):
+    recipes = Recipe.query.filter_by(recipeId=id).all()
+    ingredients = IngredientList.query.filter_by(recipeId=id).all()
+    ingredient_ids = [ingredient.ingredientId for ingredient in ingredients]
+    ingredient_names = [Ingredient.query.filter_by(ingredientId=id).first().ingredientName for id in ingredient_ids]
+    recipe_data = [recipe.serialize() for recipe in recipes]
+    ingredient_data = {'ingredientIds': ingredient_ids, 'ingredientNames': ingredient_names}
+    data = {'recipes': recipe_data, 'ingredients': ingredient_data}
+    return jsonify(data)
+
 
 @app.route('/api/newrecipes', methods=['POST'])
 def add_recipe():
@@ -104,13 +130,20 @@ def add_recipe():
         recipe_name = request.json['recipe_name']
         meal_type = request.json['meal_type']
         instructions = request.json['instructions']
+        ingredient_ids = request.json['ingredient_ids']
 
         # Create a new Recipe object
         new_recipe = Recipe(recipeName=recipe_name, mealType=meal_type, instructions=instructions)
-
+        
         # Add the new recipe to the database
         db.session.add(new_recipe)
         db.session.commit()
+
+        for ingredient_id in ingredient_ids:
+            ingredient_list = IngredientList(ingredientId=ingredient_id, recipeId=new_recipe.recipeId)
+            db.session.add(ingredient_list)
+            db.session.commit()
+
 
         # Return a success response
         return jsonify({'message': 'Recipe added successfully'})

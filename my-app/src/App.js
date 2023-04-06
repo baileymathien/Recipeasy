@@ -14,6 +14,7 @@ import Cart from './components/Cart'
 function App() {
   const { token, removeToken, setToken } = useToken();
   const [location, setLocation] = useState();
+  const [recipeID, setRecipeID] = useState();
 
 
   return (
@@ -26,9 +27,9 @@ function App() {
               <Header token={removeToken} location={window.location.href.split("/")[window.location.href.split("/").length-1]}/>
               <Routes>
                 <Route exact path="/profile" element={<Profile setLocation={setLocation} token={token} setToken={setToken} />}></Route>
-                <Route exact path="/home" element={<Recipes setLocation={setLocation} />}  ></Route>
+                <Route exact path="/home" element={<Recipes setLocation={setLocation} setRecipeID={setRecipeID}/>}  ></Route>
                 <Route exact path="/newrecipe" element={<Newrecipe setLocation={setLocation} />}></Route>
-                <Route exact path="/recipe/:id" element={<CurRecipe setLocation={setLocation} />}></Route>
+                <Route exact path="/recipe/:id" element={<CurRecipe setLocation={setLocation} id={recipeID} />}></Route>
                 <Route exact path="/cart" element={<Cart setLocation={setLocation} />}></Route>
               </Routes>
               {/* <Recipes></Recipes> */}

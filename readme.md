@@ -31,6 +31,7 @@ python3 -m venv venv
 ## To initialize local database
 
 1. Run the command `flask --app base.py initdb` after you've already setup your virtual environment
+2. Run the command `flask --app base.py filldb` after you've already setup your virtual environment, this populates the ingredients dropdown
 
 ## To test login and authorization
 

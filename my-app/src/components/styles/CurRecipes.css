@@ -27,6 +27,7 @@
     background-clip: text;
     -webkit-background-clip: text;
 }
+
 .subHeader {
     align-self: baseline;
     margin: 10px;
@@ -36,6 +37,7 @@
     background-clip: text;
     -webkit-background-clip: text;
 }
+
 .body {
     padding-left: 100px;
     text-align: left;
@@ -45,4 +47,64 @@
     color: black;
     background-clip: text;
     -webkit-background-clip: text;
+}
+
+.favoriteButton {
+    margin-left: auto;
+    height: 18px;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    border-radius: 4px;
+    background-color: rgb(6, 106, 43);
+    color: white;
+    margin-right: 10px;
+}
+
+.favoriteButton:hover {
+    background-color: rgb(17, 174, 75);
+}
+
+
+
+label {
+    /* Presentation */
+    font-size: 48px
+}
+
+/* Required Styling */
+
+label input[type="checkbox"] {
+    display: none;
+}
+
+.custom-checkbox {
+    margin-left: 2em;
+    position: relative;
+    cursor: pointer;
+}
+
+.custom-checkbox .glyphicon {
+    color: gold;
+    position: absolute;
+    top: 0.4em;
+    left: -1.25em;
+    font-size: 0.75em;
+}
+
+.custom-checkbox .glyphicon-star-empty {
+    color: gray;
+}
+
+.custom-checkbox .glyphicon-star {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.custom-checkbox:hover .glyphicon-star {
+    opacity: 0.5;
+}
+
+.custom-checkbox input[type="checkbox"]:checked~.glyphicon-star {
+    opacity: 1;
 }

@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 function CurRecipes(props) {
     const [recipes, setRecipes] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [favorited, setFavorited] = useState(false);
 
     useEffect(() => {
         const recipeId = props.id !== undefined ? props.id : window.location.href.split("/")[window.location.href.split("/").length - 1];
@@ -21,17 +22,46 @@ function CurRecipes(props) {
                 console.error(error);
             });
     }, [props.id]);
-    // useEffect(() => {
-    //   }, [recipes]);
 
-    console.log(ingredients)
+    function favorite() {
+        // if (favorited) {
+        //     // Remove from favorites
+        //     fetch(`http://localhost:5000/api/deleteFavorite/${props.userID}/${recipes[0].recipeId}`)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log(data);
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //         });
+        // } else {
+        //     // Add to favorites
+        //     fetch(`http://localhost:5000/api/addFavorite/${props.userID}/${recipes[0].recipeId}`)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log(data);
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //         });
+        // }
+        setFavorited(!favorited);
+    }
+
     return (
         <div >
+            <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"></link>
             {recipes[0] && ingredients && (
                 <div>
-                    <div className='titleClass'  >
-                        {recipes[0].recipeName}
+                    <div className='titleClass'>
+                        <label htmlFor="id-of-input" className="custom-checkbox" onClick={favorite}>
+                            <input type="checkbox" id="id-of-input" />
+                            <i className="glyphicon glyphicon-star-empty"></i>
+                            {favorited ? <i className="glyphicon glyphicon-star"></i> : <i className="glyphicon glyphicon-star-empty"></i>}
+                            <span> {recipes[0].recipeName}</span>
+                        </label>
                     </div>
+
 
                     <div className='subHeader'  >
                         {recipes[0].mealType}

@@ -10,6 +10,7 @@ import useToken from './components/useToken'
 import Newrecipe from './components/NewRecipe'
 import CurRecipe from './components/CurRecipe'
 import Cart from './components/Cart'
+import Favorites from './components/Favorites'
 
 function App() {
   const { token, removeToken, setToken } = useToken();
@@ -29,8 +30,9 @@ function App() {
                 <Route exact path="/profile" element={<Profile setLocation={setLocation} token={token} setToken={setToken} />}></Route>
                 <Route exact path="/home" element={<Recipes setLocation={setLocation} setRecipeID={setRecipeID}/>}  ></Route>
                 <Route exact path="/newrecipe" element={<Newrecipe setLocation={setLocation} />}></Route>
-                <Route exact path="/recipe/:id" element={<CurRecipe setLocation={setLocation} id={recipeID} />}></Route>
+                <Route exact path="/recipe/:id" element={<CurRecipe setLocation={setLocation} id={recipeID} userID={1}/>}></Route>
                 <Route exact path="/cart" element={<Cart setLocation={setLocation} />}></Route>
+                <Route exact path="/favorites" element={<Favorites setLocation={setLocation} userID={1}/>}></Route>
               </Routes>
               {/* <Recipes></Recipes> */}
             </>

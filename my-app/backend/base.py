@@ -147,3 +147,33 @@ def add_recipe():
 
         # Return a success response
         return jsonify({'message': 'Recipe added successfully'})
+
+
+
+
+@app.route('/api/addToFavorites/<int:recipe_id>/<string:user_id>', methods=['POST'])
+def add_to_favorites(recipe_id, user_id):
+    recipe = Recipe.query.get(recipe_id)
+    user = User.query.filter_by(username=user_id).first()
+    if recipe and user:
+        favorite = Favorites(recipe_id=recipe.id, user_id=user.id)
+        db.session.add(favorite)
+        db.session.commit()
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False, "message": "Recipe or user not found"})
+
+@app.route('/api/deleteFavorite/<string:user_id>/<int:recipe_id>', methods=['DELETE'])
+def delete_from_favorites(recipe_id, user_id):
+    favorite = Favorites.query.filter_by(recipe_id=recipe_id, user_id=user_id).first()
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False, "message": "Favorite not found"})
+
+# @app.route('/api/get_favorites')
+# def get_favorites():
+#     recipes = Ingredient.query.all()
+#     return jsonify([recipe.serialize() for recipe in recipes])

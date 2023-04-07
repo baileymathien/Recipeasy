@@ -47,7 +47,11 @@ class Ingredient(db.Model):
 class Favorites(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
     recipeId = db.Column(db.Integer, db.ForeignKey('recipe.recipeId'), primary_key=True)
-
+    def serialize(self):
+        return {
+            'userId': self.userId,
+            'recipeId': self.recipeId
+        }
     def __repr__(self):
         return '<Favorites: User:{}, Recipe:{}'.format(self.userId, self.recipeId)
     

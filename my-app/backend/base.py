@@ -1,5 +1,5 @@
 import json
-from flask import Flask, url_for, redirect, session, request, jsonify
+from flask import Flask, url_for, redirect, session, request, jsonify, render_template
 from datetime import datetime, timedelta, timezone
 from flask_sqlalchemy import SQLAlchemy
 # from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
@@ -8,7 +8,7 @@ from models import db, User, Recipe, Ingredient, Favorites, IngredientList, Shop
 
 from flask_cors import CORS #NEEDED
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../public", template_folder="../public")
 
 CORS(app) #NEEDED
 
@@ -71,16 +71,43 @@ def filldb():
 
 @app.route('/')
 def base():
-    return jsonify({"message": "Hello, world!"})
-    # return redirect(url_for('login_page'))
+   #return jsonify({"message": "Hello, world!"})
+    return redirect(url_for('login_page'))
 
 @app.route('/login' ,methods=['POST', 'GET'])
 def login_page():
-    response_body = {
-        "fname": "john",
-        "lname": "smith"
-    }
-    return response_body
+    error=None
+    if request.method == 'POST':
+        if not request.form['username']:
+            error = 'Enter a username'
+        elif not request.form['password']:
+            error = 'Enter a password'
+        else:
+            user = User.query.filter_by(username=request.form['username']).first()
+            if user and user.password == request.form['password']:
+                return render_template('login.html', error=error)
+                # needs to be added
+                # access home page
+                #  return redirect(url_for("main", user=request.form["username"]))
+            else:
+                error = 'Invalid username or password'
+    return render_template('login.html', error=error)
+
+@app.route('/registerAccount',  methods=["GET", "POST"])
+def registerAccount():
+    error=None
+    if request.method == 'POST':
+        if not request.form['username']:
+            error = 'Enter a username'
+        elif not request.form['password']:
+            error = 'Enter a password'
+        elif  User.query.filter_by(username=request.form['username']).first() != None:
+            error = 'User already exists'
+        else:
+            db.session.add( User(username=request.form['username'], password=request.form['password']))
+            db.session.commit()
+            return redirect(url_for('login_page'))
+    return render_template('register.html', error = error)
 
 @app.route('/logout',  methods=["POST"])
 def logout():

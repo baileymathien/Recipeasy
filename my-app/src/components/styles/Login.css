@@ -110,3 +110,8 @@
 .login-form .action button:nth-child(2):hover {
   background: #3c4d6d;
 }
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}

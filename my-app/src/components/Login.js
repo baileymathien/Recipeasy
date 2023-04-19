@@ -9,6 +9,7 @@ function Login(props) {
     username: "",
     password: ""
   })
+  const [errorMessage, setErrorMessage] = useState(null);
 
   function logMeIn(event) {
     event.preventDefault()
@@ -29,6 +30,7 @@ function Login(props) {
           console.log(error.response)
           console.log(error.response.status)
           console.log(error.response.headers)
+          setErrorMessage("Incorrect username or password. Please try again.");
         }
       })
 
@@ -51,6 +53,7 @@ function Login(props) {
     <div className="login-form">
       <form className="login" onSubmit={logMeIn}>
         <h1>Login</h1>
+        {errorMessage && <p className="error">{errorMessage}</p>}
         <div className="input-field">
           <input onChange={handleChange}
             type="test"

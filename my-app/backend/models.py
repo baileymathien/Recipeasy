@@ -9,6 +9,7 @@ class User(db.Model):
     userId = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), nullable=False, unique=True)
     password = db.Column(db.String(30), nullable=False)
+    recipes = db.relationship('Recipe', backref='user', lazy=True)
        
     def __repr__(self):
        return '<User {}>'.format(self.username)
@@ -18,6 +19,7 @@ class Recipe(db.Model):
     recipeName = db.Column(db.String(30), nullable=False)
     mealType = db.Column(db.String(30), nullable=False)
     instructions =  db.Column(db.Text, nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), nullable=False)
 
     def __repr__(self):
         return '<Recipe{}>'.format(self.recipeName)

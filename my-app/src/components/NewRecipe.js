@@ -56,7 +56,9 @@ function NewRecipe(props) {
         fetch('http://localhost:5000/api/newrecipes', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+
             },
             body: JSON.stringify(recipe)
         })

@@ -35,3 +35,52 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-top: 3rem;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px #ccc;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.button {
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  margin: 0 1rem;
+}
+
+.primary {
+  background-color: #1a9cff;
+  color: #fff;
+}
+
+.secondary {
+  background-color: #d9d9d9;
+  color: #333;
+}
+
+.button:hover {
+  background-color: #fff;
+  color: #1a9cff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}

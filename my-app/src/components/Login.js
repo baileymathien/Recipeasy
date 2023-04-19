@@ -1,25 +1,29 @@
 import { useState } from 'react';
 import axios from "axios";
 import './styles/Login.css'
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
-
+  const navigate = useNavigate();
   const [loginForm, setloginForm] = useState({
-    email: "",
+    username: "",
     password: ""
   })
 
   function logMeIn(event) {
+    event.preventDefault()
     axios({
       method: "POST",
-      url: "/token",
+      url: "/login",
       data: {
-        email: loginForm.email,
+        username: loginForm.username,
         password: loginForm.password
       }
     })
       .then((response) => {
-        props.setToken(response.data.access_token)
+        localStorage.setItem('jwtToken', response.data.access_token);
+        props.setToken(response.data.access_token);
+        navigate('/home');
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)
@@ -29,11 +33,10 @@ function Login(props) {
       })
 
     setloginForm(({
-      email: "",
+      username: "",
       password: ""
     }))
 
-    event.preventDefault()
   }
 
   function handleChange(event) {
@@ -46,52 +49,30 @@ function Login(props) {
 
   return (
     <div className="login-form">
-      <form className="login">
+      <form className="login" onSubmit={logMeIn}>
         <h1>Login</h1>
         <div className="input-field">
           <input onChange={handleChange}
-            type="email"
-            text={loginForm.email}
-            name="email"
-            placeholder="Email"
-            value={loginForm.email} />
+            type="test"
+            name="username"
+            placeholder="Username"
+            value={loginForm.username} />
         </div>
 
         <div className="input-field">
           <input onChange={handleChange}
             type="password"
-            text={loginForm.password}
             name="password"
             placeholder="Password"
             value={loginForm.password} />
         </div>
 
         <div className="action">
-          <button onClick={logMeIn}>Sign In</button>
+          <button type="submit">Sign In</button>
         </div>
       </form>
     </div>
-
   );
 }
-// <div>
-//   <h1>Login</h1>
-//     <form className="login">
-//       <input onChange={handleChange} 
-//             type="email"
-//             text={loginForm.email} 
-//             name="email" 
-//             placeholder="Email" 
-//             value={loginForm.email} />
-//       <input onChange={handleChange} 
-//             type="password"
-//             text={loginForm.password} 
-//             name="password" 
-//             placeholder="Password" 
-//             value={loginForm.password} />
-
-//     <button onClick={logMeIn}>Submit</button>
-//   </form>
-// </div>
 
 export default Login;

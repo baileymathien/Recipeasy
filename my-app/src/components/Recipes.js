@@ -19,8 +19,9 @@ function Recipes(props) {
 
     useEffect(() => {
         props.setLocation(window.location.href.split("/")[window.location.href.split("/").length - 1]);
-        fetch('http://localhost:5000/api/recipes')
-            .then(response => response.json())
+        fetch('http://localhost:5000/api/recipes', 
+            { headers: { 'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` } }) 
+            .then(response => response.json()) 
             .then(data => {
                 setRecipes(data);
             })

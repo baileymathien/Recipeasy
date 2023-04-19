@@ -2,8 +2,8 @@ import json
 from flask import Flask, url_for, redirect, session, request, jsonify, render_template
 from datetime import datetime, timedelta, timezone
 from flask_sqlalchemy import SQLAlchemy
-# from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
-#                                unset_jwt_cookies, jwt_required, JWTManager
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
+                               unset_jwt_cookies, jwt_required, JWTManager
 from models import db, User, Recipe, Ingredient, Favorites, IngredientList, ShoppingCart
 
 from flask_cors import CORS #NEEDED
@@ -15,9 +15,9 @@ CORS(app) #NEEDED
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///recipeasy.db'
 
 app.config['SECRET_KEY'] = 'your_secret_key'
-# app.config["JWT_SECRET_KEY"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTQxNzQ0MywianRpIjoiNGRiOTllYWQtZTE1My00MTFlLTg0NWYtZjJlZmQxYTUwYjY5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRlc3QiLCJuYmYiOjE2Nzk0MTc0NDMsImV4cCI6MTY3OTQyMTA0M30.tzQgITU2zwXnb8qpJbnkfTrztPgiPZMC9AqM743XBPo"
-# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
-# jwt = JWTManager(app)
+app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+jwt = JWTManager(app)
 
 app.config.from_object(__name__)
 
@@ -74,40 +74,37 @@ def base():
    #return jsonify({"message": "Hello, world!"})
     return redirect(url_for('login_page'))
 
-@app.route('/login' ,methods=['POST', 'GET'])
+@app.route('/login', methods=['POST'])
 def login_page():
-    error=None
     if request.method == 'POST':
-        if not request.form['username']:
-            error = 'Enter a username'
-        elif not request.form['password']:
-            error = 'Enter a password'
-        else:
-            user = User.query.filter_by(username=request.form['username']).first()
-            if user and user.password == request.form['password']:
-                return render_template('login.html', error=error)
-                # needs to be added
-                # access home page
-                #  return redirect(url_for("main", user=request.form["username"]))
-            else:
-                error = 'Invalid username or password'
-    return render_template('login.html', error=error)
+        username = request.json.get('username')
+        password = request.json.get('password')
 
-@app.route('/registerAccount',  methods=["GET", "POST"])
-def registerAccount():
-    error=None
-    if request.method == 'POST':
-        if not request.form['username']:
-            error = 'Enter a username'
-        elif not request.form['password']:
-            error = 'Enter a password'
-        elif  User.query.filter_by(username=request.form['username']).first() != None:
-            error = 'User already exists'
+        user = User.query.filter_by(username=username).first()
+
+        if user and user.password == password:
+            access_token = create_access_token(identity=username)
+            return jsonify({"access_token": access_token}), 200
         else:
-            db.session.add( User(username=request.form['username'], password=request.form['password']))
-            db.session.commit()
-            return redirect(url_for('login_page'))
-    return render_template('register.html', error = error)
+            return jsonify({"message": "Invalid username or password"}), 401
+
+    return jsonify
+
+@app.route('/registerAccount',  methods=["POST"])
+def registerAccount():
+    if request.method == 'POST':
+        username = request.json.get('username')
+        password = request.json.get('password')
+
+        if User.query.filter_by(username=username).first() is not None:
+            return jsonify({"message": "User already exists"}), 400
+
+        new_user = User(username=username, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        access_token = create_access_token(identity=username)
+        return jsonify({"access_token": access_token}), 200
 
 @app.route('/logout',  methods=["POST"])
 def logout():
@@ -129,9 +126,31 @@ def my_profile():
     return response_body
 
 @app.route('/api/recipes')
+@jwt_required()
 def get_recipes():
-    recipes = Recipe.query.all()
-    return jsonify([recipe.serialize() for recipe in recipes])
+    username = get_jwt_identity()
+    print("get_recipes user_id:", username)
+    user = User.query.filter_by(username=username).first()
+    user_id = user.userId
+    recipes = Recipe.query.filter_by(userId = user_id).all()
+    recipes_list = []
+
+    print("All recipes in the database:")
+    all_recipes = Recipe.query.all()
+    for r in all_recipes:
+        print(r.recipeId, r.recipeName, r.userId)
+
+    for recipe in recipes:
+        recipes_list.append({
+            'recipeId': recipe.recipeId,
+            'recipeName': recipe.recipeName,
+            'mealType': recipe.mealType,
+            'instructions': recipe.instructions
+        })
+    print("get_recipes recipes_list:", recipes_list)
+    return jsonify(recipes_list)
+
+
 
 @app.route('/api/get_ingredients')
 def get_ingredients():
@@ -151,8 +170,13 @@ def getCurrRecipe(id):
 
 
 @app.route('/api/newrecipes', methods=['POST'])
+@jwt_required()
 def add_recipe():
     if request.method == 'POST':
+        username = get_jwt_identity()
+        print("add_recipe user_id:", username)
+        user = User.query.filter_by(username=username).first()
+        user_id = user.userId
         # Retrieve the data from the request
         recipe_name = request.json['recipe_name']
         meal_type = request.json['meal_type']
@@ -160,12 +184,12 @@ def add_recipe():
         ingredient_ids = request.json['ingredient_ids']
 
         # Create a new Recipe object
-        new_recipe = Recipe(recipeName=recipe_name, mealType=meal_type, instructions=instructions)
+        new_recipe = Recipe(recipeName=recipe_name, mealType=meal_type, instructions=instructions,userId=user_id)
         
         # Add the new recipe to the database
         db.session.add(new_recipe)
         db.session.commit()
-
+        print("add_recipe new_recipe:", new_recipe)
         for ingredient_id in ingredient_ids:
             ingredient_list = IngredientList(ingredientId=ingredient_id, recipeId=new_recipe.recipeId)
             db.session.add(ingredient_list)

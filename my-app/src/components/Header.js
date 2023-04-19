@@ -30,6 +30,9 @@ function Header(props) {
 
     <div className="header">
     <Link to="home" className="logo">Recipeasy</Link>
+    <Link to="login">Login</Link>
+    <Link onClick={logMeOut}>Logout</Link>
+    <Link to="register">Signup</Link>
     <div className="header-right">
       {headers.map(type => (
           <Link
@@ -46,8 +49,6 @@ function Header(props) {
         <Link to="profile" onClick={changeActive}>Profile</Link> onClick={() => changeActive(type)}
         className = {window.location.href = :}
         */}
-
-        <Link onClick={logMeOut}>Logout</Link>
     </div>
     </div>
 </div>
